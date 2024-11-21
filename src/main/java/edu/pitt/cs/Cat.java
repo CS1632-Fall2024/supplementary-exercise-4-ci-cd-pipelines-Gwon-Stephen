@@ -4,37 +4,43 @@ import org.mockito.Mockito;
 import static org.mockito.Mockito.*; 
 
 public interface Cat {
-	public static Cat createInstance(InstanceType type, int id, String name) {
-		switch (type) {
-			case IMPL:
-				return new CatImpl(id, name);
-			case BUGGY:
-				return new CatBuggy(id, name);
-			case SOLUTION:
-				return new CatSolution(id, name);
-			case MOCK:
-			    // TODO: Return a mock object that emulates the behavior of a real object.
-				return null;
-			default:
-				assert(false);
-				return null;
-		}
-	}
+    public static Cat createInstance(InstanceType type, int id, String name) {
+        switch (type) {
+            case IMPL:
+                return new CatImpl(id, name);
+            case BUGGY:
+                return new CatBuggy(id, name);
+            case SOLUTION:
+                return new CatSolution(id, name);
+            case MOCK:
+                // TODO: Return a mock object that emulates the behavior of a real object.
+                 Cat cat = Mockito.mock(Cat.class);
+                 Mockito.when(cat.getId()).thenReturn(id);
+                 Mockito.when(cat.getName()).thenReturn(name);
+                 Mockito.when(cat.getRented()).thenReturn(false);
+                 Mockito.when(cat.toString()).thenReturn("ID "  + id +". " +name);
+                return cat;
 
-	// WARNING: You are not allowed to change any part of the interface.
-	// That means you cannot add any method nor modify any of these methods.
-	
-	public void rentCat();
+            default:
+                assert(false);
+                return null;
+        }
+    }
 
-	public void returnCat();
+    // WARNING: You are not allowed to change any part of the interface.
+    // That means you cannot add any method nor modify any of these methods.
 
-	public void renameCat(String name);
+    public void rentCat();
 
-	public String getName();
+    public void returnCat();
 
-	public int getId();
+    public void renameCat(String name);
 
-	public boolean getRented();
+    public String getName();
 
-	public String toString();
+    public int getId();
+
+    public boolean getRented();
+
+    public String toString();
 }
